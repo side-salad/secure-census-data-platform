@@ -49,7 +49,7 @@ Components:
 - All uploads and admin actions logged
 - Traceable file history
 
-## Internal modules used:
-- flask-dbmanager
-- flask-dragdrop
-- census_cleaning
+## Internal modules used (click for the repos):
+- [flask-dbmanager](https://github.com/side-salad/flask-db-manager)
+- [flask-dragdrop](https://github.com/side-salad/drag-drop-module)
+- [census_cleaning](https://github.com/side-salad/tabular-data-standardizer-library)
