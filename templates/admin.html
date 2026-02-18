@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Internal</title>
+	<link rel="stylesheet" href="/static/table.css" />
+	<link rel="stylesheet" href="/static/style.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body class="page-two">
+	<div class="header">
+		<div class="logoplus">
+			<a class="logolink" href="{{ url_for('inthome') }}"><h1 class="logo">UNION ONE</h1></a>
+			<a class="logolink" href="{{ url_for('inthome') }}"><p class="underlogo">CENSUS UPLOAD PORTAL</p></a>
+		</div>
+		<div class="options">
+			<a class="admin-link" href="{{ url_for('admin') }}">Admin</a>
+			<a class="files-link" href="{{ url_for('inthome') }}">All Files</a>
+			<form action="{{ url_for('logout') }}" method="get">
+				<button class="logout" type="submit">Logout</button>
+			</form>
+		</div>
+	</div>
+
+
+	<div class="table-section">
+        <div class="Search">
+			<div class="headings">
+				<h3 class="subheading">Admin Users</h3>
+				<h3 class="subheading2">Add and edit portal admins</h3>
+			</div>
+            <div class="bars">
+                <input class="searchEmail" type="text" placeholder="Filter by email...">
+            </div>
+        </div>
+		<div class="table-wrapper">
+			<table class="data-table">
+				<thead>
+					<tr>
+					    <th><i class="fa-solid fa-user-large"></i>First Name</th>
+						<th><i class="fa-solid fa-user-large"></i>Last Name</th>
+						<th><i class="fa-solid fa-envelope"></i>Email</th>
+                        <th class="date"><span class="sortable"><i class="fa-regular fa-calendar-days"></i>Added Date <span class="sortArrow">▲</span></span></th>
+						<th><i class="fa-solid fa-gear"></i>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for file in admins %}
+					<tr>
+						<td>{{ file.first_name }}</td>
+						<td>{{ file.last_name }}</td>
+						<td>{{ file.email }}</td>
+						<td>{{ file.upload_date.strftime('%Y-%m-%d %H:%M') }}</td>
+						<td class="pencil-cell"><i class="fa-solid fa-pencil edit-icon" title="Edit"></i></td>
+					</tr>
+					{% endfor %}
+                    <tr class="add-row-trigger" data-table="admin-members">
+                        <td class="row-trigger" colspan="100%">+</td>
+                    </tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pagination"></div>
+	</div>
+
+
+	<div class="table-section">
+        <div class="Search">
+			<div class="headings">
+				<h3 class="subheading">Union Members</h3>
+				<h3 class="subheading2">Add and edit authorized union members for portal use</h3>
+			</div>
+            <div class="bars">
+				<input class="searchInput" type="text" placeholder="Filter by union...">
+                <input class="searchEmail" type="text" placeholder="Filter by email...">
+            </div>
+        </div>
+		<div class="table-wrapper">
+			<table class="data-table">
+				<thead>
+					<tr>
+						<th><i class="fa-solid fa-cloud-arrow-up"></i>Most Recent Upload</th>
+						<th><i class="fa-solid fa-building"></i>Union</th>
+						<th><i class="fa-solid fa-envelope"></i>Email</th>
+                        <th class="date"><span class="sortable"><i class="fa-regular fa-calendar-days"></i>Added Date <span class="sortArrow">▲</span></span></th>
+						<th><i class="fa-solid fa-user-large"></i>First Name</th>
+						<th><i class="fa-solid fa-user-large"></i>Last Name</th>
+						<th><i class="fa-solid fa-gear"></i>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for file in union_members %}
+					<tr>
+						<td>{{ file.recent_upload }}</td>	
+						<td>{{ file.union }}</td>					
+						<td>{{ file.email }}</td>
+						<td>{{ file.upload_date.strftime('%Y-%m-%d %H:%M') }}</td>
+						<td>{{ file.first_name }}</td>
+						<td>{{ file.last_name }}</td>
+						<td class="pencil-cell"><i class="fa-solid fa-pencil edit-icon" title="Edit"></i></td>
+					</tr>
+					{% endfor %}
+                    <tr class="add-row-trigger" data-table="union-members">
+                        <td class="row-trigger" colspan="100%">+</td>
+                    </tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pagination"></div>
+	</div>
+
+
+	<div class="table-section">
+        <div class="Search">
+			<div class="headings">
+				<h3 class="subheading">SFTP Users</h3>
+				<h3 class="subheading2">View only SFTP users list</h3>
+			</div>
+            <div class="bars">
+                <input class="searchInput" type="text" placeholder="Filter by union...">
+            </div>
+        </div>
+		<div class="table-wrapper">
+			<table class="data-table">
+				<thead>
+					<tr>
+						<th><i class="fa-solid fa-envelope"></i>Email</th>
+						<th><i class="fa-solid fa-building"></i>Union</th>
+						<th><i class="fa-solid fa-user-large"></i>ID</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for file in sftp_users %}
+					<tr>
+						<td>{{ file.email }}</td>
+						<td>{{ file.union }}</td>
+						<td>{{ file.id }}</td>
+					</tr>
+					{% endfor %}
+                   	<tr class="add-row-trigger" data-table="admin-members" style="display: none;"></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pagination"></div>
+	</div>
+
+    <div class="modal-backdrop" id="modalBackdrop" style="display: none;">
+        <div class="modal-form">
+            <h3 id="modalTitle"></h3>
+            <div id="modalFields"></div>
+            <button id="submitRow">Submit</button>
+            <button id="cancelModal">Cancel</button>
+			<button id="deleteRow" style="display: none;">Delete</button>
+        </div>
+    </div>
+    
+	<script src="/static/filter.js"></script>
+</body>
+</html>

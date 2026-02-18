@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="static\homepage.css">
+</head>
+<body>
+    <div class="content">
+        <div class="login">
+            <div class="logo">
+                <h1 class="title">UNION ONE</h1>
+                <p class="subtitle">CENSUS UPLOAD PORTAL</p>
+            </div>
+            <div class="login_details">
+                <h1 class="signup">Welcome</h1>
+                <p>Securely Sign in with Microsoft or Google</p>
+                <div class="dabuttons">
+                    <a href="{{ url_for('microsoft_login') }}"><button class="Microsoft">
+                        <img src='static\images\download.png' alt="Icon" width="45" height="45">Login with Microsoft</button></a>
+                    <a href="{{ url_for('google_login') }}"><button class="Google">
+                        <img src='static\images\Google__G__logo.svg.png' alt="Icon" width="45" height="45">Login with Google</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="filler">
+            <img src="static\images\Artboard 65.png" class="fillerimage">
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="toast-container">
+            {% for category, message in messages %}
+                <div class="toast {{ category }}">
+                    <span>{{ message }}</span>
+                    <button class="close-toast" onclick="this.parentElement.style.display='none';">×</button>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External</title>
+    <link rel="stylesheet" href="\static\style.css">
+    <link rel="stylesheet" href="{{ url_for('dragdrop.static', filename='drag_drop.css') }}">
+</head>
+<body class="page-one">
+    <div class="header">
+        <div class="logoplus">
+            <h1 class="logo">
+                {% if current_union %}
+                    {{ current_union.union }}
+                {% else %}
+                    UNION ONE
+                {% endif %}
+            </h1>
+            <p class="underlogo">CENSUS UPLOAD PORTAL</p>
+        </div>
+        <form action="{{ url_for('logout') }}" method="get">
+            <button class="logout" type="submit">Logout</button>
+        </form>
+    </div>
+    {% include 'drag_drop.html' %}
+    {% if uploads %}
+    <div class="upload-history">
+        <h3 class="history-title">Upload History</h3>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Filename</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for upload in uploads %}
+                <tr>
+                    <td>{{ upload.uploaded_at }}</td>
+                    <td>{{ upload.filename }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    <script src="{{ url_for('dragdrop.static', filename='drag_drop.js') }}"></script>
+    <script>
+        setupDragAndDrop('/upload');
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.venv/
+dbmanager/
+test_data/
+dragdrop/
+censuscleaning/
+checkpoints/
+certs/
+__pycache__/
+logs/
+deploying_entrypoint/
+deploying_py/

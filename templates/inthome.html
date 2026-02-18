@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal</title>
+    <link rel="stylesheet" href="/static/table.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="page-two">
+	<div class="header">
+		<div class="logoplus">
+			<a class="logolink" href="{{ url_for('inthome') }}"><h1 class="logo">UNION ONE</h1></a>
+			<a class="logolink" href="{{ url_for('inthome') }}"><p class="underlogo">CENSUS UPLOAD PORTAL</p></a>
+		</div>
+		<div class="options">
+			<a class="admin-link" href="{{ url_for('admin') }}">Admin</a>
+			<a class="files-link" href="{{ url_for('inthome') }}">All Files</a>
+			<form action="{{ url_for('logout') }}" method="get">
+				<button class="logout" type="submit">Logout</button>
+			</form>
+		</div>
+	</div>
+    <div class="Search">
+        <div class="headings">
+            <h3 class="subheading">Available Excel Files</h3>
+            <h3 class="subheading2">Track, download, and view uploaded census data</h3>
+        </div>
+        <div class="bars">
+            <input type="text" id="searchInput" placeholder="Filter by union..." onkeyup="filterFilename()"/>
+            <input type="text" id="searchEmail" placeholder="Filter by email..." onkeyup="filterEmail()"/>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table id="fileTable">
+            <thead>
+                <th><i class="fa-solid fa-file"></i>Filename</th>
+                <th><i class="fa-solid fa-building"></i>Union</th>
+                <th><i class="fa-solid fa-user-large"></i>Uploaded By</th>
+                <th class="date" onclick="sortTableByDate()"><i class="fa-regular fa-calendar-days"></i>Upload Date <span id="sortArrow">▲</span></th>
+                <th><i class="fa-solid fa-info"></i>Row Count</th>
+                <th><i class="fa-solid fa-gear"></i>Actions</th>
+                <th><i class="fa-solid fa-bolt"></i>Status</th>
+            </thead>
+            <tbody id="tableBody">
+                {% for file in files %}
+                <tr data-index="{{ loop.index0 }}">
+                    <td>{{ file.filename }}</td>
+                    <td>{{ file.union }}</td>
+                    <td>{{ file.email }}</td>
+                    <td>{{ file.upload_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ file.rowcount }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="dropdown-toggle">.  .  .</button>
+                            <div class="dropdown-menu" style="display: none;">
+                                <a class="drop-download" href="#" onclick="openModal('download', '{{ file.id }}')">Download</a>
+                                <a class="drop-view" href="#" onclick="openModal('view', '{{ file.id }}')">View</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td><div class="battery" data-id="{{ file.id }}" data-stage="{{ file.status }}" onclick="openStatusModal(this.dataset.id, this.dataset.stage)"></div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="pagination" class="pagination"></div>
+
+    <div class="modal-backdrop" id="modalDownload" style="display: none;">
+        <div class="modal-form">
+            <h3 id="modalTitle">Confirm Download?</h3>
+            <button id="submitRow">Download</button>
+            <button id="modalLeave">Exit</button>
+        </div>
+    </div>
+    <div class="modal-backdrop-1" id="modalPreview" style="display: none;">
+        <div class="modal-form-1">
+            <h3 id="modalTitle">Table Preview</h3>
+            <button id="cancelModal">Exit</button>
+            <div class="preview-scroll">
+                <div id="previewTable"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop-2" id="modalStatus" style="display: none;">
+        <div class="modal-form-2">
+            <h3 id="modalTitle">Status Change</h3>
+            <label class="abc">Choose Stage:</label>
+            <select id="stageSelector">
+                <option value="0">Initial</option>
+                <option value="1">Mid</option>
+                <option value="2">Final</option>
+            </select>
+            <button id="rowSubmit" onclick="submitStageChange()">Save</button>
+            <button id="modalCancel">Exit</button>
+        </div>
+    </div>
+
+    <script src="/static/viewmode.js"></script>
+</body>
+</html>
