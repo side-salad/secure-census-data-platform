@@ -11,8 +11,7 @@ This project was built as a production tool for handling sensitive data with str
 ## Architecture
 
 High-level flow:
-
-Upload --> Validation --> Cleaning and Standardization --> Database Storage --> Secure Distribution
+![Workflow Diagram](./documentation/screenshot.png)
 
 Components:
 
